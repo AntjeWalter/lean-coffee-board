@@ -2,19 +2,27 @@ import Header from "../components/Header";
 import Card from "../components/Card";
 import Form from "../components/Form";
 import { useState } from "react";
-import styled from "styled-components";
+import { nanoid } from "nanoid";
 
 export default function HomePage() {
   const [cards, setCards] = useState([
-    { topic: "InitalTopic", author: "InitialAuthor" },
+    { id: "0", topic: "InitalTopic", author: "InitialAuthor" },
   ]);
 
   function handleSubmit(event) {
     event.preventDefault();
     const newTopic = event.target.topic.value;
     const newAuthor = event.target.author.value;
-    setCards([...cards, { topic: newTopic, author: newAuthor }]);
+    setCards([...cards, { id: nanoid(), topic: newTopic, author: newAuthor }]);
     event.target.reset();
+  }
+
+  function handleDelete(id) {
+    const updatedList = cards.filter((card) => {
+      return card.id !== id;
+    });
+    setCards([...updatedList]);
+    console.log(updatedList);
   }
 
   return (
@@ -22,23 +30,17 @@ export default function HomePage() {
       <Header />
       <ul>
         {cards.map((card) => (
-          <Card key={card.topic} topic={card.topic} author={card.author} />
+          <Card
+            key={card.id}
+            id={card.id}
+            topic={card.topic}
+            author={card.author}
+            onDelete={handleDelete}
+          />
         ))}
       </ul>
 
-      <StyledFormContainer>
-        <Form onSubmit={handleSubmit} cards={cards} />
-      </StyledFormContainer>
+      <Form onSubmit={handleSubmit} cards={cards} />
     </div>
   );
 }
-
-export const StyledFormContainer = styled.section`
-  position: fixed;
-  display: flex;
-  bottom: 0;
-`;
-
-export const StyledForm = styled.section`
-  justify-content: space-around;
-`;
