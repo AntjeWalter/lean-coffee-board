@@ -1,13 +1,12 @@
 import Header from "../components/Header";
 import Card from "../components/Card";
 import Form from "../components/Form";
+import styled from "styled-components";
 import { useState } from "react";
 import { nanoid } from "nanoid";
 
 export default function HomePage() {
-  const [cards, setCards] = useState([
-    { id: "0", topic: "InitalTopic", author: "InitialAuthor" },
-  ]);
+  const [cards, setCards] = useState([]);
 
   function handleSubmit(event) {
     event.preventDefault();
@@ -28,7 +27,7 @@ export default function HomePage() {
   return (
     <div>
       <Header />
-      <ul>
+      <StyledListContainer>
         {cards.map((card) => (
           <Card
             key={card.id}
@@ -38,9 +37,14 @@ export default function HomePage() {
             onDelete={handleDelete}
           />
         ))}
-      </ul>
+      </StyledListContainer>
 
       <Form onSubmit={handleSubmit} cards={cards} />
     </div>
   );
 }
+
+export const StyledListContainer = styled.ul`
+  padding-inline-start: 0px;
+  padding-left: 0px;
+`;
