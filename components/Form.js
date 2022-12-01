@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import Image from "next/image";
 
 export default function Form({ onSubmit }) {
   return (
@@ -9,7 +10,14 @@ export default function Form({ onSubmit }) {
           name="topic"
         ></StyledTextArea>
         <StyledTextArea placeholder="Your name" name="author"></StyledTextArea>
-        <button type="submit">Submit</button>
+        <button type="submit">
+          <Image
+            src="/../public/plusicon.png"
+            width={50}
+            height={50}
+            alt="Plus Icon"
+          />
+        </button>
       </StyledFormContainer>
     </>
   );
