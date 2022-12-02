@@ -8,12 +8,8 @@ import { nanoid } from "nanoid";
 export default function HomePage() {
   const [cards, setCards] = useState([]);
 
-  function handleSubmit(event) {
-    event.preventDefault();
-    const newTopic = event.target.topic.value;
-    const newAuthor = event.target.author.value;
-    setCards([...cards, { id: nanoid(), topic: newTopic, author: newAuthor }]);
-    event.target.reset();
+  function handleCreateCard(newCard) {
+    setCards([...cards, newCard]);
   }
 
   function handleDelete(id) {
@@ -52,7 +48,7 @@ export default function HomePage() {
         ))}
       </StyledListContainer>
 
-      <Form onSubmit={handleSubmit} cards={cards} />
+      <Form onCreateCard={handleCreateCard} />
     </div>
   );
 }
