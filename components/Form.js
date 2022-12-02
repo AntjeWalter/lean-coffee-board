@@ -1,10 +1,20 @@
 import styled from "styled-components";
 import Image from "next/image";
+import { nanoid } from "nanoid";
 
-export default function Form({ onSubmit }) {
+export default function Form({ onCreateCard }) {
+  function handleSubmit(event) {
+    event.preventDefault();
+    const newTopic = event.target.topic.value;
+    const newAuthor = event.target.author.value;
+    const newCard = { id: nanoid(), topic: newTopic, author: newAuthor };
+    onCreateCard(newCard);
+    event.target.reset();
+  }
+
   return (
     <>
-      <StyledFormContainer onSubmit={onSubmit}>
+      <StyledFormContainer onSubmit={handleSubmit}>
         <StyledTextArea
           placeholder="Type your thoughts..."
           name="topic"
