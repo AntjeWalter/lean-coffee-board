@@ -1,15 +1,15 @@
 import styled from "styled-components";
 import { useState } from "react";
 
-export default function Card({ topic, author, onDelete, id, onUpdateCard }) {
+export default function Card({ text, name, onDelete, id, onUpdateCard }) {
   const [edit, setEdit] = useState(false);
 
   function handleEditSubmit(event) {
     event.preventDefault();
-    const adaptedTopic = event.target.editedTopic.value;
-    const adaptedAuthor = event.target.editedAuthor.value;
-    console.log(adaptedTopic, adaptedAuthor);
-    const editedCard = { topic: adaptedTopic, author: adaptedAuthor, id };
+    const adaptedText = event.target.editedText.value;
+    const adaptedName = event.target.editedName.value;
+    console.log(adaptedText, adaptedName);
+    const editedCard = { text: adaptedText, name: adaptedName, id };
     onUpdateCard(editedCard);
     setEdit(!edit);
   }
@@ -17,15 +17,21 @@ export default function Card({ topic, author, onDelete, id, onUpdateCard }) {
   return (
     <>
       {edit === true ? (
-        <form onSubmit={handleEditSubmit}>
-          <textarea name="editedTopic" placeholder="Edit topic"></textarea>
-          <textarea name="editedAuthor" placeholder="Edit name"></textarea>
-          <button type="submit">Save changes</button>
-        </form>
+        <StyledEditForm onSubmit={handleEditSubmit}>
+          <StyledEditArea
+            name="editedText"
+            placeholder="Edit text..."
+          ></StyledEditArea>
+          <StyledEditArea
+            name="editedName"
+            placeholder="Edit name..."
+          ></StyledEditArea>
+          <StyledSaveButton type="submit">Save changes</StyledSaveButton>
+        </StyledEditForm>
       ) : (
         <StyledListItem>
-          <StyledTopic>{topic}</StyledTopic>
-          <StyledAuthor>{author}</StyledAuthor>
+          <StyledTopic>{text}</StyledTopic>
+          <StyledAuthor>{name}</StyledAuthor>
           <StyledDeleteButton onClick={() => onDelete(id)}>
             ❌ Delete
           </StyledDeleteButton>
@@ -41,8 +47,8 @@ export default function Card({ topic, author, onDelete, id, onUpdateCard }) {
 export const StyledListItem = styled.li`
   display: grid;
   grid-template-areas:
-    "a a c"
-    "b b d";
+    "a a"
+    "b b";
   margin: 20px;
   list-style: none;
   border: 1px solid black;
@@ -59,11 +65,11 @@ export const StyledTopic = styled.p`
 export const StyledAuthor = styled.p`
   grid-area: b;
   font-size: 1.2em;
-  color: orangered;
+  color: #7a6263;
 `;
 
 export const StyledDeleteButton = styled.button`
-  grid-area: c;
+  position: relative;
   margin: 10px;
   border: none;
   background-color: transparent;
@@ -72,10 +78,28 @@ export const StyledDeleteButton = styled.button`
 `;
 
 export const StyledEditButton = styled.button`
-  grid-area: d;
+  position: relative;
   margin: 10px;
   border: none;
   background-color: transparent;
   font-size: 1.2em;
   cursor: pointer;
+`;
+
+export const StyledEditForm = styled.form`
+  position: relative;
+  margin-left: 30px;
+  display: flex;
+  gap: 10px;
+`;
+
+export const StyledEditArea = styled.textarea`
+  font-family: Arial, Helvetica, sans-serif;
+`;
+
+export const StyledSaveButton = styled.button`
+  border: none;
+  background: orangered;
+  color: white;
+  border-radius: 5px;
 `;
