@@ -1,12 +1,18 @@
 import styled from "styled-components";
+import { useState } from "react";
 
 export default function Card({ topic, author, onDelete, id }) {
+  const [edit, setEdit] = useState(false);
+
   return (
     <>
       <StyledListItem>
         <StyledTopic>{topic}</StyledTopic>
         <StyledAuthor>{author}</StyledAuthor>
-        <StyledButton onClick={() => onDelete(id)}>❌ Delete</StyledButton>
+        <StyledDeleteButton onClick={() => onDelete(id)}>
+          ❌ Delete
+        </StyledDeleteButton>
+        <StyledEditButton type="button">✍🏼 Edit</StyledEditButton>
       </StyledListItem>
     </>
   );
@@ -15,8 +21,8 @@ export default function Card({ topic, author, onDelete, id }) {
 export const StyledListItem = styled.li`
   display: grid;
   grid-template-areas:
-    "a a a"
-    "b b c";
+    "a a c"
+    "b b d";
   margin: 20px;
   list-style: none;
   border: 1px solid black;
@@ -36,8 +42,16 @@ export const StyledAuthor = styled.p`
   color: orangered;
 `;
 
-export const StyledButton = styled.button`
+export const StyledDeleteButton = styled.button`
   grid-area: c;
+  margin: 10px;
+  border: none;
+  background-color: transparent;
+  font-size: 1.2em;
+`;
+
+export const StyledEditButton = styled.button`
+  grid-area: d;
   margin: 10px;
   border: none;
   background-color: transparent;
