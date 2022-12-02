@@ -24,6 +24,18 @@ export default function HomePage() {
     console.log(updatedList);
   }
 
+  function onUpdateCard(editedCard) {
+    setCards(
+      cards.map((card) => {
+        if (card.id === editedCard.id) {
+          return editedCard;
+        } else {
+          return card;
+        }
+      })
+    );
+  }
+
   return (
     <div>
       <Header />
@@ -35,6 +47,7 @@ export default function HomePage() {
             topic={card.topic}
             author={card.author}
             onDelete={handleDelete}
+            onUpdateCard={onUpdateCard}
           />
         ))}
       </StyledListContainer>
