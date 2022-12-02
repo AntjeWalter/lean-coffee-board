@@ -3,7 +3,6 @@ import Card from "../components/Card";
 import Form from "../components/Form";
 import styled from "styled-components";
 import { useEffect, useState } from "react";
-import { nanoid } from "nanoid";
 
 export default function HomePage() {
   const [cards, setCards] = useState([]);
