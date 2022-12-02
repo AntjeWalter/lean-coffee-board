@@ -5,8 +5,8 @@ export default function Header() {
 }
 
 export const StyledHeader = styled.h1`
-  margin: 20px;
+  margin: 0px;
   padding: 20px;
   text-align: center;
-  background-color: lightblue;
+  background-color: #c6dea6;
 `;

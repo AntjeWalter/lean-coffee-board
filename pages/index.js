@@ -2,7 +2,7 @@ import Header from "../components/Header";
 import Card from "../components/Card";
 import Form from "../components/Form";
 import styled from "styled-components";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { nanoid } from "nanoid";
 
 export default function HomePage() {
@@ -12,25 +12,59 @@ export default function HomePage() {
     setCards([...cards, newCard]);
   }
 
-  function handleDelete(id) {
-    const updatedList = cards.filter((card) => {
-      return card.id !== id;
-    });
-    setCards([...updatedList]);
-    console.log(updatedList);
-  }
+  async function handleDelete(id) {
+    // const updatedList = cards.filter((card) => {
+    //   return card.id !== id;
+    // });
+    // setCards([...updatedList]);
+    // console.log(updatedList);
 
-  function onUpdateCard(editedCard) {
-    setCards(
-      cards.map((card) => {
-        if (card.id === editedCard.id) {
-          return editedCard;
-        } else {
-          return card;
-        }
-      })
+    await fetch(
+      "https://lean-coffee-board-api-nextjs.vercel.app/api/questions/" + id,
+      {
+        method: "DELETE",
+      }
     );
   }
+
+  async function onUpdateCard(editedCard, id) {
+    // setCards(
+    //   cards.map((card) => {
+    //     if (card.id === editedCard.id) {
+    //       return editedCard;
+    //     } else {
+    //       return card;
+    //     }
+    //   })
+    // );
+
+    await fetch(
+      "https://lean-coffee-board-api-nextjs.vercel.app/api/questions/" +
+        editedCard.id,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(editedCard),
+      }
+    );
+  }
+
+  async function getQuestions() {
+    const response = await fetch(
+      "https://lean-coffee-board-api-nextjs.vercel.app/api/questions"
+    );
+    const questionList = await response.json();
+    setCards(questionList);
+  }
+
+  useEffect(() => {
+    getQuestions();
+    const interval = setInterval(() => {
+      getQuestions();
+    }, 2000);
+  }, []);
 
   return (
     <div>
@@ -40,8 +74,8 @@ export default function HomePage() {
           <Card
             key={card.id}
             id={card.id}
-            topic={card.topic}
-            author={card.author}
+            text={card.text}
+            name={card.name}
             onDelete={handleDelete}
             onUpdateCard={onUpdateCard}
           />
@@ -56,4 +90,6 @@ export default function HomePage() {
 export const StyledListContainer = styled.ul`
   padding-inline-start: 0px;
   padding-left: 0px;
+  position: absolute;
+  padding-bottom: 100px;
 `;
